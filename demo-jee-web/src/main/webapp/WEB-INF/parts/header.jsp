@@ -28,6 +28,7 @@
 	      <li class="nav-item">
 	        <a class="nav-link" href="${pageContext.request.contextPath}/saluda">Saluda</a>
 	      </li>
+	      <!-- 
 	      <li class="nav-item">
 	        <a class="nav-link" href="${pageContext.request.contextPath}/actores">Actores</a>
 	      </li>
@@ -40,6 +41,7 @@
 	      <li class="nav-item">
 	        <a class="nav-link" href="${pageContext.request.contextPath}/tutoriales/timer">Schedule</a>
 	      </li>
+	      -->
 	      <li class="nav-item">
 	        <a class="nav-link" href="${pageContext.request.contextPath}/pruebas">Cotilla</a>
 	      </li>

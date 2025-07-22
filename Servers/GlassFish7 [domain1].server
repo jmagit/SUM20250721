@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<server auto-publish-setting="2" auto-publish-time="1" glassfish.adminpassword="cursos" glassfish.adminserverportnumber="4848" glassfish.domainpath="C:\Cursos\.librerias\glassfish7\glassfish\domains\domain1" glassfish.serverportnumber="8080" hostname="localhost" id="GlassFish7 [domain1]" name="GlassFish7 [domain1]" previous-domain="C:\Cursos\.librerias\glassfish7\glassfish\domains\domain1" previous-name="GlassFish7 [domain1]" runtime-id="GlassFish7" server-type="glassfish.server" server-type-id="glassfish.server" start-timeout="240" stop-timeout="240" timestamp="83">
+  <list key="modules" value0="demo-jee-ear::org.eclipse.jst.jee.server:demo-jee-ear::jst.ear::8.0" value1="demo-jee-maven::org.eclipse.jst.jee.server:demo-jee-maven::jst.web::6.0"/>
+</server>
