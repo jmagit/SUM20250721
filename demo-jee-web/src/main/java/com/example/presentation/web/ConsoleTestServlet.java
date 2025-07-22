@@ -92,29 +92,29 @@ public class ConsoleTestServlet extends HttpServlet {
 //		out.println("</ul>");
 //	}
 
-//	@EJB
-//	private ConverterBeanLocal converter;
-//	@EJB
-//	private Counter counter;
+	@EJB
+	private ConverterBeanLocal converter;
+	@EJB
+	private Counter counter;
 
 	
 	private void ejb(HttpServletRequest request, HttpServletResponse response, PrintWriter out) {
 		out.println("<h2>EJB</h2>");
 		out.println("<ul>");
 		
-//		out.println("<li>Converter (stateless): " + converter.dollarToYen(BigDecimal.TEN) + " - "
-//				+ converter.dollarToYenLocal(BigDecimal.TEN) + "</li>");
-//		try {
-//			int actual = counter.getHits();
-//			out.println("<li>Counter (singleton): This page has been accessed " + actual + " time(s).</li>");
-//			if (actual > 2) {
-//				out.println("<li>Counter remove</li>");
-//				counter.remove();
-//			}
-//		} catch (Exception e) {
-//			out.println("<li>" + e.getClass().getCanonicalName() + ": " + e.getMessage() + "</li>");
-//		}
-//		out.println("<li><a href='" + request.getRequestURI() + "'>Abrir el enlace en una ventana de incognito</a></li>");
+		out.println("<li>Converter (stateless): " + converter.dollarToYen(BigDecimal.TEN) + " - "
+				+ converter.dollarToYenLocal(BigDecimal.TEN) + "</li>");
+		try {
+			int actual = counter.getHits();
+			out.println("<li>Counter (singleton): This page has been accessed " + actual + " time(s).</li>");
+			if (actual > 2) {
+				out.println("<li>Counter remove</li>");
+				counter.remove();
+			}
+		} catch (Exception e) {
+			out.println("<li>" + e.getClass().getCanonicalName() + ": " + e.getMessage() + "</li>");
+		}
+		out.println("<li><a href='" + request.getRequestURI() + "'>Abrir el enlace en una ventana de incognito</a></li>");
 		out.println("</ul>");
 	}
 

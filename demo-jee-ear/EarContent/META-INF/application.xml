@@ -3,6 +3,7 @@
   <display-name>demo-jee-ear</display-name>
   <module>
     <ejb>demo-jee-ejb.jar</ejb>
+    
   </module>
   <module>
     <web>
