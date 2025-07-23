@@ -1,4 +1,4 @@
-package com.example.jakarta.hello;
+package com.example;
 
 import jakarta.ws.rs.core.Application;
 import jakarta.ws.rs.ApplicationPath;

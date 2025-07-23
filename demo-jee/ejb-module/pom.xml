@@ -11,7 +11,8 @@
     </parent>
 
     <artifactId>ejb-module</artifactId>
-    <packaging>ejb</packaging> <dependencies>
+    <packaging>ejb</packaging>
+	<dependencies>
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-api</artifactId>

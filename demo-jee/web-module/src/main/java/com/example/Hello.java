@@ -1,4 +1,4 @@
-package com.example.jakarta.hello;
+package com.example;
 
 public class Hello {
 
