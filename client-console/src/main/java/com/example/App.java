@@ -92,10 +92,10 @@ public class App {
 			ctx.getEnvironment().forEach((k, v) -> System.out.println(k + ": " + v));
 			for(String nombre : nombres) {
 				try {
-					System.out.println("Peticion " + nombre);
+					System.out.println("\nPeticion: " + nombre);
 					Object ejb = null;
 					ejb = ctx.lookup(nombre);
-					System.out.println(ejb == null ? "No encontrado" : ejb.getClass().getCanonicalName());
+					System.out.println(ejb == null ? "No encontrado" : ("Encontrado:" + ejb.getClass().getCanonicalName()));
 				} catch (Throwable e) {
 					System.err.println("Error al buscar " + nombre + ": " + e.getMessage());
 				}
