@@ -1,0 +1,20 @@
+package com.example;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/demos")
+public class HomeResource {
+
+	@GetMapping
+	public String index() {
+		return "Welcome to the Spring JEE Application!";
+	}
+
+	@GetMapping("/demos")
+	public String demos() {
+		return "Welcome to the Spring JEE Application!";
+	}
+}
