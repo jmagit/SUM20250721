@@ -1,4 +1,4 @@
-package com.example.ejb;
+package com.example.contracts.distributed.services;
 
 import jakarta.ejb.Remote;
 

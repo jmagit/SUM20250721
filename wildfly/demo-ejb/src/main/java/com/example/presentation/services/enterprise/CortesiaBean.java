@@ -1,6 +1,6 @@
-package com.example.bean;
+package com.example.presentation.services.enterprise;
 
-import com.example.ejb.CortesiaRemote;
+import com.example.contracts.distributed.services.CortesiaRemote;
 
 import jakarta.ejb.Stateless;
 
