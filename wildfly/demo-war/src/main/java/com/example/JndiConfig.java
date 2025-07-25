@@ -4,27 +4,23 @@ import javax.naming.NamingException;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jndi.JndiObjectFactoryBean;
 import org.springframework.jndi.JndiTemplate;
 
+import com.example.contracts.distributed.services.ConverterLocal;
 import com.example.contracts.distributed.services.ConverterRemote;
 import com.example.contracts.distributed.services.CortesiaRemote;
 import com.example.contracts.distributed.services.CounterRemote;
 
 @Configuration
 public class JndiConfig {
-	JndiTemplate jndiTemplate;
+	private JndiTemplate jndiTemplate;
 
 	@Bean
 	JndiTemplate jndiTemplate() {
-		if (jndiTemplate == null) 
+		if (jndiTemplate == null)
 			jndiTemplate = new JndiTemplate();
 		return jndiTemplate;
-	}
-
-	@Bean
-	CounterRemote counterRemote() throws NamingException {
-		return (CounterRemote) jndiTemplate()
-				.lookup("java:global/demo-ejb/CounterBean!com.example.contracts.distributed.services.CounterRemote");
 	}
 
 	@Bean
@@ -33,16 +29,33 @@ public class JndiConfig {
 				.lookup("java:global/demo-ejb/CortesiaBean!com.example.contracts.distributed.services.CortesiaRemote");
 	}
 
+//	@Bean
+//	CounterRemote counterRemote() throws NamingException {
+//		return (CounterRemote) jndiTemplate()
+//				.lookup("java:global/demo-ejb/CounterBean!com.example.contracts.distributed.services.CounterRemote");
+//	}
+	@Bean
+	CounterRemote counterRemote() throws NamingException {
+		JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
+		bean.setJndiName("java:global/demo-ejb/CounterBean!com.example.contracts.distributed.services.CounterRemote");
+		bean.setProxyInterface(CounterRemote.class);
+		bean.afterPropertiesSet();
+		return (CounterRemote) bean.getObject();
+	}
+
 	@Bean
 	ConverterRemote converterRemote() throws NamingException {
-		return (ConverterRemote) jndiTemplate().lookup(
-				"java:global/demo-ejb/ConverterBean!com.example.contracts.distributed.services.ConverterRemote");
+		return (ConverterRemote) jndiTemplate()
+				.lookup("java:global/demo-ejb/ConverterBean!com.example.contracts.distributed.services.ConverterRemote");
 	}
 
 //	@Bean
 //	ConverterLocal converterLocal() throws NamingException {
-//		return (ConverterLocal) jndiTemplate()
-//				.lookup("java:global/demo-ejb/ConverterBean!com.example.contracts.distributed.services.ConverterLocal");
+//		JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
+//		bean.setJndiName("java:global/demo-ejb/ConverterBean!com.example.contracts.distributed.services.ConverterLocal");
+//		bean.setProxyInterface(CounterRemote.class);
+//		bean.afterPropertiesSet();
+//		return (ConverterLocal) bean.getObject();
 //	}
 //	@Bean
 //	public DataSource dataSource() throws Exception {

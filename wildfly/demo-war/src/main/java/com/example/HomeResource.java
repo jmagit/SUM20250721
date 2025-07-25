@@ -29,15 +29,18 @@ public class HomeResource {
 	public String index() {
 		return "Welcome to the Spring JEE Application!";
 	}
-	
+
 	@Autowired
 	JndiTemplate jndiTemplate;
-	
-	record Info(String jndi, String className) {}
-	@GetMapping("/ejb")
-	public List<Info> ejb() {
+
+	record Info(String jndi, String className) {
+	}
+
+	@GetMapping("/jndi")
+	public List<Info> jndi() {
 		var result = new ArrayList<Info>();
-		var list = List.of("java:global/demo-ejb/ConverterBean!com.example.presentation.services.enterprise.ConverterBean",
+		var list = List.of(
+				"java:global/demo-ejb/ConverterBean!com.example.presentation.services.enterprise.ConverterBean",
 				"java:app/demo-ejb/ConverterBean!com.example.presentation.services.enterprise.ConverterBean",
 				"java:module/ConverterBean!com.example.presentation.services.enterprise.ConverterBean",
 				"java:global/demo-ejb/ConverterBean!com.example.contracts.distributed.services.ConverterLocal",
@@ -60,8 +63,8 @@ public class HomeResource {
 		return result;
 	}
 
-	@GetMapping(path = { "/cotilla", "demos" })
-	public List<String> demos() throws NamingException {
+	@GetMapping(path = { "/listar" })
+	public List<String> listar() throws NamingException {
 //        Hashtable<String, String> jndiProps = new Hashtable<>();
 //        jndiProps.put(Context.INITIAL_CONTEXT_FACTORY, "org.wildfly.naming.client.WildFlyInitialContextFactory");
 //        jndiProps.put(Context.PROVIDER_URL, "http-remoting://localhost:8080");
@@ -69,18 +72,17 @@ public class HomeResource {
 		Context context = new InitialContext();
 
 		var result = new ArrayList<String>();
-		for(var env : context.getEnvironment().entrySet()) {
-			result.add(env.getKey() + " = " + env.getValue());			
+		result.add("ENVIRONMENT");
+		for (var env : context.getEnvironment().entrySet()) {
+			result.add(env.getKey() + " = " + env.getValue());
 		}
-		var list = context.list("java:global");
-		while (list.hasMore()) {
-			NameClassPair pair = list.next();
-			result.add("java:global/" + pair.getName() + " --> " + pair.getClassName());
-		}
-		list = context.list("java:comp/env");
-		while (list.hasMore()) {
-			NameClassPair pair = list.next();
-			result.add("java:comp/env/" + pair.getName() + " --> " + pair.getClassName());
+		for (var name : List.of("java:comp", "java:global", "java:app", "java:module", "ejb", "java:jboss")) {
+			result.add(name.toUpperCase());
+			var list = context.list(name);
+			while (list.hasMore()) {
+				NameClassPair pair = list.next();
+				result.add(name + "/" + pair.getName() + " --> " + pair.getClassName());
+			}
 		}
 		return result;
 	}
@@ -107,12 +109,13 @@ public class HomeResource {
 //	@Autowired
 //	@EJB(lookup = "java:global/demo-ejb/ConverterBean!com.example.contracts.distributed.services.ConverterLocal")
 //	ConverterLocal converterLocal;
-	
+
 	@GetMapping("/euros/{value}")
 	BigDecimal dolares(@PathVariable Double value) throws NamingException {
-//		return converterRemote.yenToEuro(new BigDecimal(value));
-		var obj = jndiTemplate.lookup("java:global/demo-ejb/ConverterBean!com.example.contracts.distributed.services.ConverterLocal");
-		return ((ConverterLocal)obj).yenToEuro(new BigDecimal(value));
+		return converterRemote.yenToEuro(new BigDecimal(value));
+//		return converterLocal.yenToEuro(new BigDecimal(value));
+//		var obj = jndiTemplate.lookup("java:global/demo-ejb/ConverterBean!com.example.contracts.distributed.services.ConverterLocal");
+//		return ((ConverterLocal)obj).yenToEuro(new BigDecimal(value));
 	}
 
 	@Autowired
