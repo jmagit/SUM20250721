@@ -1,13 +1,13 @@
 package com.example;
 
 import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jndi.JndiObjectFactoryBean;
 import org.springframework.jndi.JndiTemplate;
 
-import com.example.contracts.distributed.services.ConverterLocal;
 import com.example.contracts.distributed.services.ConverterRemote;
 import com.example.contracts.distributed.services.CortesiaRemote;
 import com.example.contracts.distributed.services.CounterRemote;
@@ -57,14 +57,18 @@ public class JndiConfig {
 //		bean.afterPropertiesSet();
 //		return (ConverterLocal) bean.getObject();
 //	}
+	
 //	@Bean
 //	public DataSource dataSource() throws Exception {
 //	    JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
-//	    bean.setJndiName("java:/MyDS");
-//	    bean.setProxyInterface(DataSource.class);
+//	    bean.setJndiName("java:/SakilaDataSource");
+//        bean.setResourceRef(true); // Indica que es una referencia a un recurso de entorno
+////        bean.setExpectedType(DataSource.class);
+//        bean.setProxyInterface(DataSource.class);
 //	    bean.afterPropertiesSet();
 //	    return (DataSource) bean.getObject();
 //	}
+	
 //    @Bean
 //    public SimpleRemoteStatelessSessionProxyFactoryBean converterRemote() {
 //        SimpleRemoteStatelessSessionProxyFactoryBean factory = new SimpleRemoteStatelessSessionProxyFactoryBean();

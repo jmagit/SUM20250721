@@ -1,4 +1,4 @@
-package com.example;
+package com.example.presentation.resources;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
