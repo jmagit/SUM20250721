@@ -27,7 +27,7 @@ public class TimerSessionBean {
     private Date lastAutomaticTimeout;
 
     private static final Logger logger =
-            Logger.getLogger("timersession.ejb.TimerSessionBean");
+            Logger.getLogger("TimerSessionBean");
 
     public void setTimer(long intervalDuration) {
         logger.log(Level.INFO,

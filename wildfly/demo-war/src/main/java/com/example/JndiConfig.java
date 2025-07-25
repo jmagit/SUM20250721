@@ -1,7 +1,6 @@
 package com.example;
 
 import javax.naming.NamingException;
-import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +10,12 @@ import org.springframework.jndi.JndiTemplate;
 import com.example.contracts.distributed.services.ConverterRemote;
 import com.example.contracts.distributed.services.CortesiaRemote;
 import com.example.contracts.distributed.services.CounterRemote;
+import com.example.contracts.domain.distributed.FacturasCommand;
+import com.example.contracts.domain.distributed.PedidosCommand;
+
+import jakarta.jms.ConnectionFactory;
+import jakarta.jms.Queue;
+import jakarta.jms.Topic;
 
 @Configuration
 public class JndiConfig {
@@ -58,7 +63,7 @@ public class JndiConfig {
 //		return (ConverterLocal) bean.getObject();
 //	}
 	
-//	@Bean
+//	@Bean(destroyMethod = "")
 //	public DataSource dataSource() throws Exception {
 //	    JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
 //	    bean.setJndiName("java:/SakilaDataSource");
@@ -68,6 +73,63 @@ public class JndiConfig {
 //	    bean.afterPropertiesSet();
 //	    return (DataSource) bean.getObject();
 //	}
+
+	@Bean
+    public ConnectionFactory jmsConnectionFactory() throws IllegalArgumentException {
+        JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
+        // El nombre JNDI de tu ConnectionFactory JMS configurado en el servidor
+        bean.setJndiName("java:/ConnectionFactory"); 
+//        bean.setJndiName("java:/JmsXA"); // Ejemplo para WildFly
+        bean.setResourceRef(true);
+        bean.setExpectedType(ConnectionFactory.class);
+        return (ConnectionFactory) bean.getObject();
+    }
+	
+    @Bean
+    public Queue peticionesQueue() throws IllegalArgumentException {
+        JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
+        // El nombre JNDI de tu cola JMS configurada en el servidor
+        bean.setJndiName("java:/jms/queue/peticiones"); 
+        bean.setResourceRef(true);
+        bean.setExpectedType(Queue.class);
+        return (Queue) bean.getObject();
+    }
+	@Bean
+	PedidosCommand pedidosCommand() throws NamingException {
+		JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
+		bean.setJndiName("java:global/demo-ejb/PedidosQueue!com.example.contracts.domain.distributed.PedidosCommand");
+		bean.setProxyInterface(PedidosCommand.class);
+		bean.afterPropertiesSet();
+		return (PedidosCommand) bean.getObject();
+	}
+	
+    @Bean
+    public Queue respuestasQueue() throws IllegalArgumentException {
+        JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
+        // El nombre JNDI de tu cola JMS configurada en el servidor
+        bean.setJndiName("java:/jms/queue/respuestas"); 
+        bean.setResourceRef(true);
+        bean.setExpectedType(Queue.class);
+        return (Queue) bean.getObject();
+    }
+	@Bean
+	FacturasCommand facturasCommand() throws NamingException {
+		JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
+		bean.setJndiName("java:global/demo-ejb/FacturasQueue!com.example.contracts.domain.distributed.FacturasCommand");
+		bean.setProxyInterface(FacturasCommand.class);
+		bean.afterPropertiesSet();
+		return (FacturasCommand) bean.getObject();
+	}
+	
+    @Bean
+    public Topic sensoresQueue() throws IllegalArgumentException {
+        JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
+        // El nombre JNDI de tu tema JMS configurada en el servidor
+        bean.setJndiName("java:/jms/topic/sensores"); 
+        bean.setResourceRef(true);
+        bean.setExpectedType(Queue.class);
+        return (Topic) bean.getObject();
+    }
 	
 //    @Bean
 //    public SimpleRemoteStatelessSessionProxyFactoryBean converterRemote() {

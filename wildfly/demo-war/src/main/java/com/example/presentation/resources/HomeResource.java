@@ -40,6 +40,9 @@ public class HomeResource {
 	public List<Info> jndi() {
 		var result = new ArrayList<Info>();
 		var list = List.of(
+				"java:/ConnectionFactory",
+				"java:/jms/queue/peticiones",
+				"java:global/demo-ejb/PedidosQueue!com.example.contracts.domain.distributed.PedidosCommand",
 				"java:global/demo-ejb/ConverterBean!com.example.presentation.services.enterprise.ConverterBean",
 				"java:app/demo-ejb/ConverterBean!com.example.presentation.services.enterprise.ConverterBean",
 				"java:module/ConverterBean!com.example.presentation.services.enterprise.ConverterBean",
@@ -76,12 +79,12 @@ public class HomeResource {
 		for (var env : context.getEnvironment().entrySet()) {
 			result.add(env.getKey() + " = " + env.getValue());
 		}
-		for (var name : List.of("java:comp", "java:global", "java:app", "java:module", "ejb", "java:jboss")) {
+		for (var name : List.of("java:comp", "java:global", "java:app", "java:module", "ejb", "java:jboss", "java:/")) {
 			result.add(name.toUpperCase());
 			var list = context.list(name);
 			while (list.hasMore()) {
 				NameClassPair pair = list.next();
-				result.add(name + "/" + pair.getName() + " --> " + pair.getClassName());
+				result.add(name + (name.endsWith("/") ? "" : "/") + pair.getName() + " --> " + pair.getClassName());
 			}
 		}
 		return result;
