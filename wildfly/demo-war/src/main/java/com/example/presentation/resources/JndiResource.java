@@ -23,7 +23,7 @@ import com.example.contracts.distributed.services.CounterRemote;
 import jakarta.ejb.EJB;
 
 @RestController
-public class HomeResource {
+public class JndiResource {
 
 	@GetMapping("/saludo")
 	public String index() {
