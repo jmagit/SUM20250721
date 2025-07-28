@@ -34,7 +34,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<springdoc-openapi.version>2.8.9</springdoc-openapi.version>
-        <wildfly.version>36.0.1.Final</wildfly.version>
+        <wildfly.version>35.0.1.Final</wildfly.version>
         <wildfly-plugin.version>5.0.1.Final</wildfly-plugin.version>
 	</properties>
 	
@@ -96,20 +96,23 @@
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>${springdoc-openapi.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jms</artifactId>
+		</dependency>
         <dependency>
             <groupId>jakarta.jms</groupId>
             <artifactId>jakarta.jms-api</artifactId>
             <scope>provided</scope>
         </dependency>
-
-<!--
+		<!--
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-api</artifactId>
             <version>10.0</version>
             <scope>provided</scope>
         </dependency>
--->
+		-->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

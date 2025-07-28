@@ -36,14 +36,14 @@ public class ContableListener implements MessageListener {
             if (message instanceof TextMessage) {
                 TextMessage textMessage = (TextMessage) message;
                 String body = textMessage.getText();
+				System.out.println("Pedido recibido por "+ getClass().getSimpleName() + " de " + body);
 				Thread.sleep(1000);
 				body = "Factura de ContableListener a las " + LocalDateTime.now() + " para el " + body.toLowerCase();
-
                 // --- Envío del mensaje a OutputQueue ---
                 try (JMSContext context = connectionFactory.createContext()) {
                     JMSProducer producer = context.createProducer();
                     producer.send(outputQueue, body);
-//					System.out.println("Nueva factura enviada por "+ getClass().getSimpleName() + ": " + body);
+					System.out.println("Nueva factura enviada por "+ getClass().getSimpleName() + ": " + body);
                 }
 
             } else {
