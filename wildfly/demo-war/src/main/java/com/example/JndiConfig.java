@@ -2,6 +2,7 @@ package com.example;
 
 import javax.naming.NamingException;
 
+import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
@@ -94,37 +95,47 @@ public class JndiConfig {
 	}
 	
 //	@Bean
-//    public ConnectionFactory jmsConnectionFactory() throws IllegalArgumentException {
-//        JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
-//        // El nombre JNDI de tu ConnectionFactory JMS configurado en el servidor
-////        bean.setJndiName("java:/ConnectionFactory"); 
-//        bean.setJndiName("java:/JmsXA"); // Ejemplo para WildFly
-//        bean.setResourceRef(true);
-//        bean.setExpectedType(ConnectionFactory.class);
-//        return (ConnectionFactory) bean.getObject();
-//    }
-//	@Bean
-//	public JmsListenerContainerFactory<?> jmsListenerContainerFactory(ConnectionFactory connectionFactory) {
-//	    DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-//	    factory.setConnectionFactory(connectionFactory);
-//	    return factory;
+//	public JndiObjectFactoryBean connectionFactory() {
+//		JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
+//		bean.setJndiName("java:/ConnectionFactory"); // Este es el nombre típico en WildFly
+//		return bean;
 //	}
 //
 //	@Bean
-//	public JndiObjectFactoryBean connectionFactory() {
-//	    JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
-//	    bean.setJndiName("java:/ConnectionFactory"); // Este es el nombre típico en WildFly
-//	    return bean;
-//	}	
-//    @Bean
-//    public Queue peticionesQueue() throws IllegalArgumentException {
-//        JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
-//        // El nombre JNDI de tu cola JMS configurada en el servidor
-//        bean.setJndiName("java:/jms/queue/peticiones"); 
-//        bean.setResourceRef(true);
-//        bean.setExpectedType(Queue.class);
-//        return (Queue) bean.getObject();
-//    }
+//	public JmsListenerContainerFactory<?> jmsListenerContainerFactory(ConnectionFactory connectionFactory) {
+//		DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+//		factory.setConnectionFactory(connectionFactory);
+//		return factory;
+//	}
+	@Bean
+	JmsListenerContainerFactory<?> topicListenerContainerFactory(ConnectionFactory connectionFactory,
+			DefaultJmsListenerContainerFactoryConfigurer configurer) {
+		DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+		configurer.configure(factory, connectionFactory);
+		factory.setPubSubDomain(true);
+		return factory;
+	}
+//
+//	@Bean
+//	public ConnectionFactory jmsConnectionFactory() throws IllegalArgumentException {
+//		JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
+//		// El nombre JNDI de tu ConnectionFactory JMS configurado en el servidor
+////        bean.setJndiName("java:/ConnectionFactory"); 
+//		bean.setJndiName("java:/JmsXA"); // Ejemplo para WildFly
+//		bean.setResourceRef(true);
+//		bean.setExpectedType(ConnectionFactory.class);
+//		return (ConnectionFactory) bean.getObject();
+//	}
+//
+//	@Bean
+//	public Queue peticionesQueue() throws IllegalArgumentException {
+//		JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
+//		// El nombre JNDI de tu cola JMS configurada en el servidor
+//		bean.setJndiName("java:/jms/queue/peticiones");
+//		bean.setResourceRef(true);
+//		bean.setExpectedType(Queue.class);
+//		return (Queue) bean.getObject();
+//	}
 //	
 //    @Bean
 //    public Queue respuestasQueue() throws IllegalArgumentException {

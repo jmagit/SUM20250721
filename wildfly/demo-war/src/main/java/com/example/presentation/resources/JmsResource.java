@@ -2,6 +2,8 @@ package com.example.presentation.resources;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -124,5 +126,30 @@ public class JmsResource {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		return lastReceived;
 	}
+
+	record ChatDTO(String mensaje, String de, LocalDateTime enviado) implements Serializable {}
+
+	@GetMapping("/jms/chat/a-send")
+	public String sendChat(@RequestParam(defaultValue = "hola") String mensaje, @RequestParam(defaultValue = "tu") String de) {
+		jms.convertAndSend("chat", new ChatDTO(mensaje, de, LocalDateTime.now()));
+		return "SEND: " + mensaje;
+	}
+
+	private List<ChatDTO> tema = new ArrayList<>();
+	
+	@JmsListener(destination = "chat", containerFactory = "topicListenerContainerFactory" )
+	public void listenTopic(ChatDTO in) {
+		tema.add(0, in);
+		lastReceived = new MessageReceived(in.mensaje(), in.enviado(), LocalDateTime.now());
+		System.out.println("MENSAJE RECIBIDO: " + in);
+	}
+
+	@GetMapping("/jms/chat/b-list")
+	public List<ChatDTO> listChat() {
+		if(tema == null)
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		return tema;
+	}
+
 
 }
