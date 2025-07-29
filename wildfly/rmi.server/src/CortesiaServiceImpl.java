@@ -1,9 +1,10 @@
 import java.io.Serializable;
+import java.rmi.RemoteException;
 
 public class CortesiaServiceImpl implements CortesiaService, Serializable {
 	
 	@Override
-	public String saludar(String nombre) {
+	public String saludar(String nombre) throws RemoteException {
 		if (nombre == null || nombre.trim().isEmpty()) {
 			nombre = "mundo";
 		}
@@ -11,7 +12,7 @@ public class CortesiaServiceImpl implements CortesiaService, Serializable {
 	}
 	
 	@Override
-	public String despedir(String nombre) {
+	public String despedir(String nombre) throws RemoteException {
 		if (nombre == null || nombre.trim().isEmpty()) {
 			nombre = "mundo";
 		}
