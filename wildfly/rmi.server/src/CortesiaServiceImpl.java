@@ -1,4 +1,6 @@
-public class CortesiaServiceImpl implements CortesiaService {
+import java.io.Serializable;
+
+public class CortesiaServiceImpl implements CortesiaService, Serializable {
 	
 	@Override
 	public String saludar(String nombre) {
